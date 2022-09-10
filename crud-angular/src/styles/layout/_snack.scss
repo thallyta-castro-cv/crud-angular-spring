@@ -1,0 +1,44 @@
+@use "src/styles/abstract";
+
+.snack {
+  height: 115px;
+
+  .snack__container {
+    margin: 7px 0 7px 14px;
+  }
+
+  &--success {
+    background-color: abstract.$snack-color-success;
+    color: abstract.$light-color;
+  }
+
+  &--error {
+    background-color: abstract.$snack-color-error;
+    color: abstract.$light-color;
+  }
+
+  h1 {
+    font-size: 25px;
+    font-weight: 300;
+    margin-bottom: 9px;
+  }
+
+  p {
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  button {
+    right: 20px;
+    position: absolute;
+    top: 26px;
+  }
+
+  &:hover {
+    button {
+      icon-close {
+        opacity: 0.5;
+      }
+    }
+  }
+}

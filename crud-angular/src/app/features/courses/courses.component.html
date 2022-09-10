@@ -1,0 +1,20 @@
+<mat-card>
+  <div class="form-buttons mb-3">
+    <button
+      color="accent"
+      mat-raised-button
+      (click)="onAdd()">
+      <mat-icon>add_circle_outline</mat-icon>
+      NOVO CURSO
+    </button>
+  </div>
+
+  <mat-toolbar color="primary">Cursos Disponíveis</mat-toolbar>
+
+  <div class="flex-column mat-elevation-z8">
+    <app-courses-list
+      [courses]="courses"
+      (add)="onAdd()">
+    </app-courses-list>
+  </div>
+</mat-card>

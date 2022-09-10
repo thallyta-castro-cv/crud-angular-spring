@@ -1,0 +1,11 @@
+@use "../abstract";
+
+table {
+  width: 100%;
+  overflow: auto;
+  max-height: 600px;
+}
+
+.mat-row:hover .mat-cell {
+  background-color: abstract.$hover-color;
+}

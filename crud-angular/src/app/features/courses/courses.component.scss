@@ -1,0 +1,25 @@
+@use "src/styles/abstract";
+
+mat-card {
+  max-width: 80%;
+  margin: 2em auto;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.form-buttons{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn__primary {
+  font-size: 1rem;
+  color: abstract.$light-color;
+  mat-icon {
+    margin-right: 5px;
+  }
+}
