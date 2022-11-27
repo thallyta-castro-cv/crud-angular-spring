@@ -60,11 +60,11 @@ export class CourseFormComponent implements OnInit{
       takeUntil(this.unsubscribeNotifier),
       finalize(() => this.loading = false)
     ).subscribe({
-      next: course => {
+      next: () => {
         this.snackBarService.success('Curso salvo com sucesso!');
         this.location.back();
       },
-      error: error => {
+      error: () => {
         this.snackBarService.error('Erro ao salvar curso!')
       }
     });
@@ -77,11 +77,11 @@ export class CourseFormComponent implements OnInit{
       takeUntil(this.unsubscribeNotifier),
       finalize(() => this.loading = false)
     ).subscribe({
-      next: course => {
+      next: () => {
         this.snackBarService.success('Curso atualizado com sucesso!');
         this.location.back();
       },
-      error: error => {
+      error: () => {
         this.snackBarService.error('Erro ao atualizar curso!')
       }
     });

@@ -31,4 +31,8 @@ export class FeaturesService {
     return this.httpClient.post<Course[]>(this.API, course);
   }
 
+  delete(id: string){
+    return this.httpClient.delete(`${this.API}/${id}`);
+  }
+
 }

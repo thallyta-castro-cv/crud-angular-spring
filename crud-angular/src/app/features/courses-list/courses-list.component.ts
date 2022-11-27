@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { Course } from '../models/course';
 import { CourseList } from '../models/course-list';
 import { FeaturesService } from '../services/features.service';
@@ -37,7 +38,8 @@ export class CoursesListComponent implements OnInit {
     private courseService: FeaturesService,
     private dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBarService: SnackbarService,
   ) { }
 
   ngOnInit() {
@@ -76,12 +78,25 @@ export class CoursesListComponent implements OnInit {
     });
   }
 
-  onAdd() {
-    this.add.emit(true);
-  }
-
   onEdit(course: Course) {
     this.router.navigate(['edit', course.id], {relativeTo: this.route})
+  }
+
+  onDelete(course: Course) {
+    this.courseService.delete(course.id)
+      .pipe(
+        takeUntil(this.unsubscribeNotifier),
+        finalize(() => (this.loading = false)),
+      )
+      .subscribe({
+        next: () => {
+          this.snackBarService.success('Curso removido com sucesso!');
+          this.loadCourses();
+        },
+        error: () => {
+          this.openError("Erro ao deletar cursos!");
+        }
+      });
   }
 
 }
