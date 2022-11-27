@@ -5,22 +5,25 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { MaterialModule } from './modules/material.module';
 import { CategoryPipe } from './pipes/category.pipe';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+  CommonModule,
     MaterialModule
   ],
   declarations: [
     ErrorDialogComponent,
     CategoryPipe,
-    SnackbarComponent
+    SnackbarComponent,
+    ConfirmDialogComponent
   ],
   exports: [
     MaterialModule,
     ErrorDialogComponent,
     CategoryPipe,
-    SnackbarComponent
+    SnackbarComponent,
+    ConfirmDialogComponent
   ]
 })
 export class SharedModule { }
