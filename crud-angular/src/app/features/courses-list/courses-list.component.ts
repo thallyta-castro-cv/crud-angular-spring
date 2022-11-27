@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { Course } from '../models/course';
@@ -14,15 +15,14 @@ import { FeaturesService } from '../services/features.service';
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
-  styleUrls: ['./courses-list.component.scss']
+  styleUrls: ['./courses-list.component.scss'],
 })
 export class CoursesListComponent implements OnInit {
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() courses: CourseList = {};
-  @Output() add = new EventEmitter(false)
+  @Output() add = new EventEmitter(false);
 
   public dataSource: MatTableDataSource<Course>;
   public displayedColumns: string[] = ['name', 'category', 'actions'];
@@ -32,15 +32,15 @@ export class CoursesListComponent implements OnInit {
   public pageEvent: PageEvent;
   public loading: boolean;
 
-  private unsubscribeNotifier: Subject<void> = new Subject<void>;
+  private unsubscribeNotifier: Subject<void> = new Subject<void>();
 
   constructor(
     private courseService: FeaturesService,
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBarService: SnackbarService,
-  ) { }
+    private snackBarService: SnackbarService
+  ) {}
 
   ngOnInit() {
     this.loadCourses();
@@ -48,45 +48,63 @@ export class CoursesListComponent implements OnInit {
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+      this.pageSizeOptions = setPageSizeOptionsInput
+        .split(',')
+        .map((str) => +str);
     }
   }
 
   loadCourses(): void {
     this.loading = true;
 
-    this.courseService.getCourses()
+    this.courseService
+      .getCourses()
       .pipe(
         takeUntil(this.unsubscribeNotifier),
-        finalize(() => (this.loading = false)),
+        finalize(() => (this.loading = false))
       )
       .subscribe({
-        next: data => {
+        next: (data) => {
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
         error: () => {
-          this.openError("Erro ao carregar cursos!");
-        }
+          this.openError('Erro ao carregar cursos!');
+        },
       });
   }
 
   openError(errorMessage: string) {
     this.dialog.open(ErrorDialogComponent, {
-      data: errorMessage
+      data: errorMessage,
+    });
+  }
+
+  onConfirmDelete(course: Course) {
+    const dialog = this.dialog.open(ConfirmDialogComponent, {
+      data: 'Tem certeza que deseja remover este curso?',
+    });
+
+    dialog.afterClosed().subscribe({
+      next: (result: boolean) => {
+        if (result) {
+          this.onDelete(course);
+        }
+      },
     });
   }
 
   onEdit(course: Course) {
-    this.router.navigate(['edit', course.id], {relativeTo: this.route})
+    this.router.navigate(['edit', course.id], { relativeTo: this.route });
   }
 
   onDelete(course: Course) {
-    this.courseService.delete(course.id)
+    this.courseService
+      .delete(course.id)
       .pipe(
         takeUntil(this.unsubscribeNotifier),
-        finalize(() => (this.loading = false)),
+        finalize(() => (this.loading = false))
       )
       .subscribe({
         next: () => {
@@ -94,9 +112,8 @@ export class CoursesListComponent implements OnInit {
           this.loadCourses();
         },
         error: () => {
-          this.openError("Erro ao deletar cursos!");
-        }
+          this.openError('Erro ao deletar cursos!');
+        },
       });
   }
-
 }
