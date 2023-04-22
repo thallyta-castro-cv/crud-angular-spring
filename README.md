@@ -2,7 +2,7 @@
 
 ### Projeto em Andamento!
 
-<b> Este projeto foi criado com Angular CLI 14.1.0 no frontend e Java 17 com Spring Framework 2.7.3 no backend</b>
+<b> Este projeto foi criado com Angular CLI 15.0.0 no frontend e Java 17 com Spring Framework 3.0.0 no backend</b>
 
 # Sobre o projeto
 
