@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import com.thallyta.crudspring.models.Course;
 import com.thallyta.crudspring.repositories.CourseRepository;
 
+
 @SpringBootApplication
 public class CrudSpringApplication {
 
@@ -20,10 +21,10 @@ public class CrudSpringApplication {
 		return args -> {
 			courseRepository.deleteAll();
 
-			Course c = new Course();
-			c.setName("Angular com Spring");
-			c.setCategory("front-end");
-			courseRepository.save(c);
+			Course course = new Course();
+			course.setName("Angular com Spring");
+			course.setCategory("Front-end");
+			courseRepository.save(course);
 		};
 	}
 
